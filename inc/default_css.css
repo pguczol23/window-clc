@@ -63,6 +63,7 @@
     vertical-align: middle;
     display: table-cell;
     padding-right: 50px;
+    margin-bottom: 5.5px;
 }
 
 .calculator-section .r_block .oc_line span.inp {
@@ -82,7 +83,7 @@
     text-transform: uppercase;
     border-top: 2px solid #B67929;
     border-bottom: 2px solid #B67929;
-    padding-top: 20px;
+    padding-top: 30px;
     padding-bottom: 20px;
     margin-top: 10px;
     font-weight: bold;
@@ -326,7 +327,6 @@
     display: block;
     position: relative;
     padding: 10px;
-    margin-bottom: 20px;
     font-size: 12px;
     line-height: 16px;
     width: 100%;
@@ -405,33 +405,33 @@
 }
 
 @media (min-width: 320px) {
-    .container {
-        width: 100%;
-    }
+    /*.container {*/
+    /*    width: 100%;*/
+    /*}*/
 }
 
 @media (min-width: 576px) {
-    .container {
-        width: 540px;
-    }
+    /*.container {*/
+    /*    width: 540px;*/
+    /*}*/
 }
 
 @media (min-width: 768px) {
-    .container {
-        width: 750px;
-    }
+    /*.container {*/
+    /*    width: 750px;*/
+    /*}*/
 }
 
 @media (min-width: 992px) {
-    .container {
-        width: 970px;
-    }
+    /*.container {*/
+    /*    width: 970px;*/
+    /*}*/
 }
 
 @media (min-width: 1200px) {
-    .container {
-        width: 1170px;
-    }
+    /*.container {*/
+    /*    width: 1170px;*/
+    /*}*/
 }
 
 @media (max-width: 1200px) {
@@ -457,12 +457,16 @@
     }
 
     .calculator-section .r_block .oc_pr_block {
-        padding-top: 10px;
+        padding-top: 20px;
         padding-bottom: 10px;
     }
 
     .calculator-section .r_block .oc_pr_block .bl_left span {
         font-size: 48px;
+    }
+
+    .calculator-section .r_block .oc_line span {
+        margin-bottom: 3px;
     }
 }
 
