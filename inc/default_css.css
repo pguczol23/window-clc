@@ -570,3 +570,13 @@
         margin-bottom: 0;
     }
 }
+
+@media (max-width: 360px) {
+    .calculator-section .base-container {
+        padding: 0;
+    }
+    .calculator-section .r_block {
+        border: none;
+        padding: 0;
+    }
+}
