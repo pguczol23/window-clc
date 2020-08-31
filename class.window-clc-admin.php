@@ -210,8 +210,6 @@ class WindowClc_Admin {
 
         $results = json_decode($_POST['options_obj'], true);
 
-        var_dump($results);
-
         foreach ($results as $key => $result) {
             $r = $wpdb->query("UPDATE $table_name SET 
                  type = ". $result['type'] .", 
