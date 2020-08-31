@@ -290,7 +290,7 @@
 
 .calculator-section .maket {
     height: 377px;
-    width: 320px;
+    width: 390px;
     position: relative;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -467,6 +467,10 @@
 
     .calculator-section .r_block .oc_line span {
         margin-bottom: 3px;
+    }
+
+    .calculator-section .maket {
+        width: 320px;
     }
 }
 
