@@ -61,10 +61,10 @@ class WindowClc_Admin {
                         <div class=\"row base-container\">";
 
 		    $types1Html = "<div class=\"type-container\">
-                <div class=\"choose-type-window\">Выберите тип окана:</div>
+                <div class=\"choose-type-window\">Выберите тип окна:</div>
                 <div class=\"window-menu\">";
 		    $types2Html = "<div class=\"type-container\" style='display: none'>
-                <div class=\"choose-type-window\">Выберите тип окана:</div>
+                <div class=\"choose-type-window\">Выберите тип окна:</div>
                 <div class=\"window-menu\">";
 
 		    $data = [];
