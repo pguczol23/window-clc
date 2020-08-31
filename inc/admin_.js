@@ -3,9 +3,6 @@ jQuery(function($){
     let els = $('.option-container');
     let count = $('.option-container').length;
 
-    console.log(els);
-    console.log(count);
-
     const uploadBtnClick = function(e){
 
         e.preventDefault();
@@ -23,17 +20,17 @@ jQuery(function($){
                 multiple: false
             }).on('select', function() { // it also has "open" and "close" events
                 let attachment = custom_uploader.state().get('selection').first().toJSON();
-                button.parent().find('[data-hidden-image]').val(attachment.id);
+                button.parent().find('[name="' + button.attr('data-id') + '"][data-hidden-image]').val(attachment.id);
                 button.html('<img width="200px" height="200px" src="' + attachment.url + '">').next().val(attachment.id).next().show();
             }).open();
-
     }
 
     const removeBtnClick = function(e){
         e.preventDefault();
 
-        let button = $(this);
+        let button = $(e.target);
         button.next().val(''); // emptying the hidden field
+        button.parent().find('[name="' + button.attr('data-id') + '"][data-hidden-image]').val('');
         button.hide().prev().html('Upload image');
     }
 
@@ -41,11 +38,12 @@ jQuery(function($){
         let opt = {};
 
         let options = els.find('[name="option"]');
-        console.log(options);
 
         for (let i = 1; i <= options.length; i++) {
             let el = $(options.get(i-1));
             opt[i] = {
+                id: el.val(),
+                type: els.find('[name="option-type'+el.val()+'"]').val(),
                 name: els.find('[name="option-name'+el.val()+'"]').val(),
                 value: els.find('[name="option-value'+el.val()+'"]').val(),
                 podvalue: els.find('[name="option-podvalue'+el.val()+'"]').val(),
@@ -54,7 +52,6 @@ jQuery(function($){
                 minimg: els.find('[name="option-minimg'+el.val()+'"]').val(),
             };
         }
-        console.log(opt);
         return opt;
     }
 

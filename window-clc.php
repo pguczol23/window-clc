@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       Window Calculator
  * Plugin URI:        https://github.com/pguczol23/window-clc
- * Description:       Description of the plugin.
+ * Description:       Just a simple calculator plugin.
  * Version:           1.0.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
@@ -141,12 +141,12 @@ register_deactivation_hook( __FILE__, 'window_clc_deactivate_' );
 define( 'WINDOW_CLC__NAME', "window-clc");
 define( 'WINDOW_CLC__PLUGIN_DIR', plugin_dir_path( __FILE__ ));
 
-//add_action( 'init', array( 'WindowCalculator', 'init' ) );
-
+require_once( WINDOW_CLC__PLUGIN_DIR . 'class.window-clc-admin.php' );
 if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-    require_once( WINDOW_CLC__PLUGIN_DIR . 'class.window-clc-admin.php' );
-    add_action( 'init', array( 'WindowClc_Admin', 'init' ) );
+    add_action( 'init', array( 'WindowClc_Admin', 'admin_init' ) );
 }
+
+add_action( 'init', array( 'WindowClc_Admin', 'init' ) );
 
 add_action( 'admin_enqueue_scripts', 'window_clc_include_js' );
 function window_clc_include_js() {
