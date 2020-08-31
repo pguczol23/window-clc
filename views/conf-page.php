@@ -2,6 +2,12 @@
     if (isset($_POST['submit'])) {
         WindowClc_Admin::saveOptions();
     }
+    if (isset($_POST['generateHTML'])) {
+        WindowClc_Admin::generateHTML(true);
+    }
+    if (isset($_POST['generateCSS'])) {
+        WindowClc_Admin::generateCSS();
+    }
 ?>
 <div class="wrap">
     <h1>Window Calculator Settings</h1>
@@ -16,9 +22,9 @@
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text"><span>Html Content</span></legend>
-                        <p class="submit"><form><input type="submit" name="submit" id="submit" class="button button-primary" value="Generate HTML"></form></p>
+                        <p class="submit"><form><input type="submit" name="generateHTML" id="submit" class="button button-primary" value="Generate HTML"></form></p>
                         <p>
-                            <textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys"
+                            <textarea name="html_value" rows="10" cols="50" id="html_value"
                                       class="large-text code">
 <?php
     $gfile = WINDOW_CLC__PLUGIN_DIR . "inc/generated_html.php";
@@ -35,18 +41,15 @@
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text"><span>Css Content</span></legend>
-                        <p class="submit"><form><input type="submit" name="submit" id="submit" class="button button-primary" value="Generate CSS"></form></p>
+                        <p class="submit"><input type="submit" name="generateCSS" id="submit" class="button button-primary" value="Generate CSS"></p>
 
                         <p>
-                            <textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys"
+                            <textarea name="css_value" rows="10" cols="50" id="css_value"
                                       class="large-text code">
 <?php
-    $gfile = WINDOW_CLC__PLUGIN_DIR . "inc/generated_css.php";
-    $dfile = WINDOW_CLC__PLUGIN_DIR . "inc/default_css.php";
-    if (file_exists($gfile) && file_get_contents($gfile) !== "") {
+    $gfile = WINDOW_CLC__PLUGIN_DIR . "inc/generated_css.css";
+    if (file_exists($gfile)) {
         include $gfile;
-    }elseif (file_exists($dfile)) {
-        include $dfile;
     }
 ?>
 </textarea>

@@ -7,8 +7,7 @@ class WindowClc_Admin {
     public static function init() {
 
 	    add_shortcode( 'get_calculator' , function () {
-		    self::generateHTML();
-		    self::generateCSS();
+		    self::render();
 
 		    wp_enqueue_style( 'window-clc-style', plugins_url(WINDOW_CLC__NAME . '/inc/generated_css.css'));
 		    wp_enqueue_script( 'window-clc-script', plugins_url( WINDOW_CLC__NAME . '/inc/calculator-clc.js'), array('jquery'), '1.0.0', true );
@@ -26,7 +25,7 @@ class WindowClc_Admin {
             self::load_menu();
     }
 
-    public static function generateHTML () {
+    public static function generateHTML ($new=false) {
 	    $file = WINDOW_CLC__PLUGIN_DIR . 'inc/generated_html.php';
 	    $content = '';
 	    try{
@@ -34,7 +33,7 @@ class WindowClc_Admin {
         }catch (Exception $e){
         }
 
-	    if (!($content !== null || $content !== '')) {
+	    if (($content !== null || $content !== '') && $new === false) {
 		    include($file);
 	    }else {
             global $wpdb;
@@ -76,7 +75,7 @@ class WindowClc_Admin {
 			        if (!$image) {
 			            $image[0] = '';
                     }
-		            $types1Html .= "<div class=\"type-window\"><img draggable='false' src='" . $image[0]. "'></div>\r\n";
+		            $types1Html .= "<div class=\"type-window\"><img title='". $result->option_name ."' alt='". $result->option_name ."' draggable='false' src='" . $image[0]. "'></div>\r\n";
 
 			        $index = 1;
                 }else {
@@ -89,11 +88,17 @@ class WindowClc_Admin {
 			        $index = 2;
                 }
 
+			    $image = wp_get_attachment_image_src( $result->main_image_id, 'full'  );
+			    if (!$image) {
+				    $image[0] = '';
+			    }
+
 			    $data[$index][] = [
 				    'value' => $result->option_value,
 				    'monvalue' => $result->mon_value,
 				    'podvalue' => $result->pod_value,
 				    'mainimg' => $image[0],
+                    'alt' => $result->option_name
 			    ];
             }
 
@@ -103,14 +108,14 @@ class WindowClc_Admin {
 		    $html .= $types1Html;
 		    $html .= $types2Html;
 
-		    $image = wp_get_attachment_image_src( ($results[0])->main_image_id );
+		    $image = wp_get_attachment_image_src( ($results[0])->main_image_id, 'full' );
 		    if (!$image) {
 			    $image[0] = '';
 		    }
             $html .= "<div class=\"row form-container\">
             <div class=\"col-md-5 clearfix\" style=\"padding-left:0px; padding-right:0px;\">
                 <div class=\"maket\">
-                    <img draggable='false' src='" . $image[0] . "'>
+                    <img draggable='false' src='" . $image[0] . "' alt='" . ($results[0])->option_name . "'>
                 </div>
             </div>
             <div class=\"col-md-6\" style=\"padding-left:0px; padding-right:0px;\">
@@ -144,24 +149,33 @@ class WindowClc_Admin {
 		    $html .= "</div></div></div>";
 		    file_put_contents($file, $html);
 
-		    var_dump( json_encode($data));
-		    echo $html;
+		    $file =  WINDOW_CLC__PLUGIN_DIR . 'inc/calculator-clc.def.js';
+		    $fileExt =  WINDOW_CLC__PLUGIN_DIR . 'inc/calculator-clc.js';
+		    if (file_exists($file)) {
+		        $ctx = file_get_contents($file);
+			    $ctx = str_replace('{$_DATA_PATTERN_$}', json_encode($data), $ctx);
+			    file_put_contents($fileExt, $ctx);
+            }
         }
+    }
+
+    public static function render() {
+	    $file = WINDOW_CLC__PLUGIN_DIR . 'inc/generated_html.php';
+
+	    if (file_exists($file)) {
+		    $ctx = file_get_contents( $file );
+		    echo $ctx;
+	    }
     }
 
 	public static function generateCSS() {
 		$file = WINDOW_CLC__PLUGIN_DIR . 'inc/generated_css.css';
-		$file_def = WINDOW_CLC__PLUGIN_DIR . 'inc/default_css.php';
+		$file_def = WINDOW_CLC__PLUGIN_DIR . 'inc/default_css.css';
 		$content = '';
 		try{
-			$content = file_get_contents($file);
+			$content = file_get_contents($file_def);
+			file_put_contents($file, $content);
 		}catch (Exception $e){
-		}
-
-		if ($content !== null || $content !== '') {
-//			include ($file);
-		}else {
-//            include ($file_def);
 		}
 	}
 
@@ -191,6 +205,8 @@ class WindowClc_Admin {
         $table_name = $wpdb->prefix . "window_clc";
 
         $_POST['options_obj'] = str_replace("\\", "", $_POST['options_obj']);
+        $_POST['html_value'] = str_replace("\\", "", $_POST['html_value']);
+        $_POST['css_value'] = str_replace("\\", "", $_POST['css_value']);
 
         $results = json_decode($_POST['options_obj'], true);
 
@@ -207,6 +223,17 @@ class WindowClc_Admin {
                  image_id = '". $result['minimg'] ."' 
                  WHERE `id` =" . $result['id']);
         }
+
+	    $file = WINDOW_CLC__PLUGIN_DIR . 'inc/generated_html.php';
+        if (file_exists($file)) {
+            file_put_contents($file, $_POST['html_value']);
+        }
+
+	    $file = WINDOW_CLC__PLUGIN_DIR . 'inc/generated_css.css';
+	    if (file_exists($file)) {
+		    file_put_contents($file, $_POST['css_value']);
+	    }
+
     }
 
     public static function getOptions() {
