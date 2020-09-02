@@ -7,10 +7,10 @@ class WindowClc_Admin {
     public static function init() {
 
 	    add_shortcode( 'get_calculator' , function () {
-		    self::render();
-
 		    wp_enqueue_style( 'window-clc-style', plugins_url(WINDOW_CLC__NAME . '/inc/generated_css.css'));
 		    wp_enqueue_script( 'window-clc-script', plugins_url( WINDOW_CLC__NAME . '/inc/calculator-clc.js'), array('jquery'), '1.0.0', true );
+
+		    return self::render();
 	    });
     }
 
@@ -164,7 +164,7 @@ class WindowClc_Admin {
 
 	    if (file_exists($file)) {
 		    $ctx = file_get_contents( $file );
-		    echo $ctx;
+		    return $ctx;
 	    }
     }
 
