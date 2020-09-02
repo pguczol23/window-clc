@@ -144,9 +144,9 @@ define( 'WINDOW_CLC__PLUGIN_DIR', plugin_dir_path( __FILE__ ));
 require_once( WINDOW_CLC__PLUGIN_DIR . 'class.window-clc-admin.php' );
 if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
     add_action( 'init', array( 'WindowClc_Admin', 'admin_init' ) );
+}else {
+	add_action( 'init', array( 'WindowClc_Admin', 'init' ) );
 }
-
-add_action( 'init', array( 'WindowClc_Admin', 'init' ) );
 
 add_action( 'admin_enqueue_scripts', 'window_clc_include_js' );
 function window_clc_include_js() {
