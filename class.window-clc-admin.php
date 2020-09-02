@@ -140,7 +140,7 @@ class WindowClc_Admin {
                         </div>
                     </div>
                     <div class=\"b_btn okno_send\">
-                        Заказать
+                        Рассчитать
                     </div>
                 </div>
             </div>
